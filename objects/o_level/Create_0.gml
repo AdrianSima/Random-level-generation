@@ -9,8 +9,11 @@ width_ = room_width div CELL_WIDTH;
 height_ = room_height div CELL_HEIGHT;
 grid_ = ds_grid_create(width_, height_);
 
-#region Build a test level first
+orphan_walls = true;
+double_walls = false;
 
+#region Build a test level first
+/*
 // Clean the room first
 ds_grid_set_region(grid_, 0, 0, width_, height_, VOID);
 ds_grid_set_region(grid_, 1, 1, width_, height_, FLOOR);
@@ -63,14 +66,6 @@ grid_[# 28, 6] = VOID;
 grid_[# 29, 3] = VOID;
 grid_[# 29, 5] = VOID;
 grid_[# 30, 4] = VOID;
-
-/*grid_[# 25, 6] = VOID;
-grid_[# 26, 5] = VOID;
-grid_[# 27, 4] = VOID;
-
-grid_[# 25, 8] = VOID;
-grid_[# 26, 9] = VOID;
-grid_[# 27, 10] = VOID;*/
 
 grid_[# 22, 8] = VOID;
 grid_[# 22, 10] = VOID;
@@ -159,12 +154,6 @@ grid_[# 27, 22] = FLOOR;
 ds_grid_set_region(grid_, 29, 20, 30, 22, VOID);
 grid_[# 29, 22] = FLOOR;
 
-with Debugger { need_redraw_ = true; }
-
-#endregion
-
-//generate_random_level();
-
 // place tiles on the tile layer
 for (var _y = 1; _y < height_ -1; _y += 1) {
 	for (var _x = 1; _x < width_ -1; _x += 1) {
@@ -188,3 +177,9 @@ for (var _y = 1; _y < height_ -1; _y += 1) {
 		}
 	}
 }
+
+with Debugger { need_redraw_ = true; }
+*/
+#endregion
+
+generate_random_level(!orphan_walls, double_walls);

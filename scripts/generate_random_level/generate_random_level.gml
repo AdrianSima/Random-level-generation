@@ -1,7 +1,8 @@
 /// @desc This will generate a random level
 /// @func generate_random_level(remove_orphan_walls)
 /// @param rm_walls:boolean If true will replace any orpha walls with floors
-var rm_walls = (argument_count > 0) ? argument[0] : false;
+var _rm_walls = (argument_count > 0) ? argument[0] : false,
+	_double_walls = (argument_count > 1) ? argument[1] : false;
 
 // Clean the room first
 ds_grid_set_region(grid_, 0, 0, width_, height_, VOID);
@@ -38,18 +39,32 @@ repeat (_steps) {
 }
 
 // Replace orphan wall tiles with floor tiles
-if (rm_walls) {
+if (_rm_walls or _double_walls) {
 	for (var _y = 1; _y < height_ -1; _y += 1) {
 		for (var _x = 1; _x < width_ -1; _x += 1) {
 			if (grid_[# _x, _y] != FLOOR) {
-				var _north_tile = grid_[# _x, _y - 1] == VOID,
-					_west_tile  = grid_[# _x - 1, _y] == VOID,
-					_east_tile  = grid_[# _x + 1, _y] == VOID,
-					_south_tile = grid_[# _x, _y + 1] == VOID;
+				// This is a wall tile, but which wall
+				var	_nw_tile	= grid_[# _x - 1, _y - 1]	== VOID,
+					_n_tile		= grid_[# _x,	  _y - 1]	== VOID,
+					_ne_tile	= grid_[# _x + 1, _y - 1]	== VOID,
+					_w_tile		= grid_[# _x - 1, _y	]	== VOID,
+					_e_tile		= grid_[# _x + 1, _y	]	== VOID,
+					_sw_tile	= grid_[# _x - 1, _y + 1]	== VOID,
+					_s_tile		= grid_[# _x,	  _y + 1]	== VOID,
+					_se_tile	= grid_[# _x + 1, _y + 1]	== VOID;
 				
-				var _tile_index = 1 + NORTH * _north_tile + WEST * _west_tile + EAST * _east_tile + SOUTH * _south_tile;
-				if (_tile_index == 1) {
+				var _tile_index = NORTH_WEST * _nw_tile + NORTH * _n_tile + NORTH_EAST * _ne_tile + 
+								  WEST * _w_tile + EAST * _e_tile + 
+								  SOUTH_WEST * _sw_tile + SOUTH * _s_tile + SOUTH_EAST * _se_tile;
+				//if (_rm_walls and _tile_index == 0) print_r("adiacent tiles", _nw_tile, _n_tile, _ne_tile, _w_tile, _e_tile, _sw_tile, _s_tile, _se_tile);
+				if (_rm_walls and !_n_tile and !_s_tile and !_w_tile and !_e_tile) {
+					show_debug_message("removing orphan wall at tile ["+string(_x)+","+string(_y)+"]");
 					grid_[# _x, _y] = FLOOR;
+				}
+				if (_double_walls and !_n_tile and !_s_tile) {
+					var _placement = (_y > height_ - 1) ? -1 : 1;
+					show_debug_message("doubling the wall at tile ["+string(_x)+","+string(_y)+"] in direction " + (_placement ? "below":"above"));
+					grid_[# _x, _y + _placement] = VOID;
 				}
 			}
 		}
@@ -75,7 +90,22 @@ for (var _y = 1; _y < height_ -1; _y += 1) {
 							  SOUTH_WEST * _sw_tile + SOUTH * _s_tile + SOUTH_EAST * _se_tile,
 				_mapped_index = tile_index_map_get(_tile_index);
 			
-			tilemap_set(_tile_map_id, _mapped_index, _x, _y);
+			//show_debug_message("tilemap_set("+string(_mapped_index)+","+string(_x)+","+string(_y)+")");
+			tilemap_set(_tile_map_id, _mapped_index == -1 ? 12 : _mapped_index, _x, _y);
+		}
+		else {
+			//show_debug_message("tilemap_set(FLOOR,"+string(_x)+","+string(_y)+")");
+			
+			// This sets a transparent tile as the floor
+			tilemap_set(_tile_map_id, 0, _x, _y);
+			
+			// This removes the tile if there was one
+			/*var data = tilemap_get(_tile_map_id, _x, _y);
+		    if (!tile_get_empty(data))
+		    {
+				data = tile_set_empty(data);
+				tilemap_set(_tile_map_id, data, _x, _y);
+			}*/
 		}
 	}
 }

@@ -3,6 +3,7 @@ if (!debug_) exit;
 
 if (instance_exists(o_level)) {
 	if (need_redraw_) {
+		var _has_unknown_tile = false;
 		if (!surface_exists(debug_surface_id_)) {
 			// Create the debug surface
 			debug_surface_id_ = surface_create(room_width, room_height);
@@ -12,8 +13,8 @@ if (instance_exists(o_level)) {
 		draw_set_color(c_aqua);
 		draw_set_font(f_debug);
 		with (o_level) {
-			for (var _y = 1; _y < height_; _y += 1) {
-				for (var _x = 1; _x < width_; _x += 1) {
+			for (var _y = 1; _y < height_ - 1; _y += 1) {
+				for (var _x = 1; _x < width_ - 1; _x += 1) {
 					var _cell_pos_x = _x * CELL_WIDTH,
 						_cell_pos_y = _y * CELL_HEIGHT;
 						
@@ -33,8 +34,10 @@ if (instance_exists(o_level)) {
 										  SOUTH_WEST * _sw_tile + SOUTH * _s_tile + SOUTH_EAST * _se_tile,
 							_mapped_index = tile_index_map_get(_tile_index);
 						
-						if (_mapped_index == -1) 
-						draw_text(_cell_pos_x, _cell_pos_y, string(_tile_index) + "\r\n" + string(_mapped_index));
+						if (_mapped_index == -1) {
+							_has_unknown_tile = true;
+							draw_text(_cell_pos_x, _cell_pos_y, string(_tile_index) + "\r\n" + string(_mapped_index));
+						}
 					}
 					else {
 						// This is a floor tile
@@ -45,9 +48,19 @@ if (instance_exists(o_level)) {
 		}
 		surface_reset_target();
 		need_redraw_ = false;
+		
+		if (auto_generate and !_has_unknown_tile)
+			alarm[0] = room_speed / 6;
 	}
 }
-draw_text(5, 5, "need_redraw_:" + string(need_redraw_));
+// Draw debug info
+var _text_row = 1;
+draw_text(5, (_text_row++) * str_height, "need_redraw:" + (need_redraw_ ? "true":"false"));
+draw_text(5, (_text_row++) * str_height, "auto_generate:" + (auto_generate ? "true":"false"));
+if (instance_exists(o_level)) {
+	draw_text(5, (_text_row++) * str_height, "orphan_walls:" + (o_level.orphan_walls ? "true":"false"));
+	draw_text(5, (_text_row++) * str_height, "double_walls:" + (o_level.double_walls ? "true":"false"));
+}
 
 // Draw the debug surface to the screen
 if (surface_exists(debug_surface_id_)) {
