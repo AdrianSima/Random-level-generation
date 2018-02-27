@@ -36,6 +36,7 @@ if (instance_exists(o_level)) {
 						
 						if (_mapped_index == -1) {
 							_has_unknown_tile = true;
+							audio_play_sound(snd_alert, 1, true);
 							draw_text(_cell_pos_x, _cell_pos_y, string(_tile_index) + "\r\n" + string(_mapped_index));
 						}
 					}
@@ -50,7 +51,7 @@ if (instance_exists(o_level)) {
 		need_redraw_ = false;
 		
 		if (auto_generate and !_has_unknown_tile)
-			alarm[0] = room_speed / 6;
+			alarm[0] = room_speed / 10;
 	}
 }
 // Draw debug info
