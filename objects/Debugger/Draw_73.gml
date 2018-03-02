@@ -40,7 +40,7 @@ if (instance_exists(o_level)) {
 							draw_text(_cell_pos_x, _cell_pos_y, string(_tile_index) + "\r\n" + string(_mapped_index));
 						}
 					}
-					else {
+					else if (other.draw_floor_area){
 						// This is a floor tile
 						draw_sprite(s_debug, 0, _cell_pos_x, _cell_pos_y);
 					}
@@ -54,14 +54,6 @@ if (instance_exists(o_level)) {
 			alarm[0] = room_speed / 10;
 	}
 }
-// Draw debug info
-var _text_row = 1;
-draw_text(5, (_text_row++) * str_height, "need_redraw:" + (need_redraw_ ? "true":"false"));
-draw_text(5, (_text_row++) * str_height, "auto_generate:" + (auto_generate ? "true":"false"));
-if (instance_exists(o_level)) {
-	draw_text(5, (_text_row++) * str_height, "orphan_walls:" + (o_level.orphan_walls ? "true":"false"));
-	draw_text(5, (_text_row++) * str_height, "double_walls:" + (o_level.double_walls ? "true":"false"));
-}
 
 // Draw the debug surface to the screen
 if (surface_exists(debug_surface_id_)) {
@@ -69,8 +61,6 @@ if (surface_exists(debug_surface_id_)) {
 }
 else need_redraw_ = true;
 
-
 if (cell_mapped_index != noone) {
 	draw_text(cell_x, cell_y, string(cell_tile_index) + "\r\n" + string(cell_mapped_index));
 }
-

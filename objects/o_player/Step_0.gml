@@ -1,126 +1,58 @@
-/// @description Player movement
-/*
-//Get the player's input
-key_right = keyboard_check(vk_right) || keyboard_check(ord("D"));
-key_left  = keyboard_check(vk_left) || keyboard_check(ord("A"));
-key_jump  = keyboard_check_pressed(vk_up) || keyboard_check_pressed(ord("W"));
-key_jump_held   = keyboard_check(vk_up) || keyboard_check(ord("W"));
-key_down        = keyboard_check(vk_down) || keyboard_check(ord("S"));
+/// @description Player logic
 
-//React to inputs
-move = key_right - key_left;
+h_input = (keyboard_check(vk_right) or keyboard_check(ord("D"))) - (keyboard_check(vk_left) or keyboard_check(ord("A")));
+v_input = (keyboard_check(vk_down) or keyboard_check(ord("S"))) - (keyboard_check(vk_up) or keyboard_check(ord("W")));
 
-//Smooth Movement
-if(move != 0)
-{	// This will limit our speed and apply the direction by multiplying with 'move'
-    movespeed = clamp(movespeed + acc * move, -movespeed_max, movespeed_max);
+move_direction = point_direction(0, 0, h_input, v_input);
+xSpeed += lengthdir_x(acceleration, move_direction) * abs(h_input);
+ySpeed += lengthdir_y(acceleration, move_direction) * abs(v_input);
+
+xSpeed = clamp(lerp(xSpeed, 0, 0.3), -maxSpeed, maxSpeed);
+ySpeed = clamp(lerp(ySpeed, 0, 0.3), -maxSpeed, maxSpeed);
+
+if (h_input == 0) {
+	xSpeed = lerp(xSpeed, 0, 0.3);
 }
-else
-{ // If we are not moving left or right, we need to slow down
-	if (abs(movespeed) > 0.5) // If we are still moving too fast, we slow down
-	{
-		// This will slow you down with 10% every frame, but will never reach exactly 0
-		// That is why we have the 0.5 as a margin. If we get below that, we are essentially stopped
-		// so we manually set movespeed = 0
-		movespeed *= 0.9;
-	}
-	else // This means we are below 0.5 speed so we can stop completely
-	{
-		movespeed = 0;
-	}
-		
+if (v_input == 0) {
+	ySpeed = lerp(ySpeed, 0, 0.3);
 }
 
-x += movespeed;*/
-
-//Get the player's input
-key_right = keyboard_check(vk_right);
-key_left = keyboard_check(vk_left);
-key_jump = keyboard_check_pressed(vk_up);
-key_jump_held = keyboard_check(vk_up)
-key_down = keyboard_check(vk_down);
-global.key_bite = keyboard_check(vk_space);
-
-//React to inputs
-move = key_right - key_left;
-
-if (vsp < 10) vsp += global.grav;
-
-if (place_meeting(x,y+1,obj_grass)) {
-	if (key_jump) {
-		vsp = -jumpspeed;
-		if (key_down) vsp -= jumpspeed * 0.5;
-	}
-}
-
-if (vsp < 0) && (!key_jump_held)
-	vsp = max(vsp,-jumpspeed/4);
-	
-if (!place_meeting(x, y + vsp, obj_grass))
-	y += vsp;
-else {
-	var ySign = sign(vsp);
-	while (!place_meeting(x, y + ySign, obj_grass)) {
-		y += ySign;
-	}
-	vsp = 0;
-}
-
-//var hsp_final = hsp + hsp_carry;
-
-//Smooth Movement
-if (move != 0 && !key_down)
-{   // This will limit our speed and apply the direction by multiplying with 'move'
-	movespeed = clamp(movespeed + acc * move, -movespeed_max, 
-	movespeed_max);
-}
-else // If we are not moving left or right, we need to slow down
-{
-	if (abs(movespeed) > 0.5) // If we are still moving too fast, we slow down
-	{
-	    // This will slow you down with 10% every frame, but will never reach exactly 0
-	    // That is why we have the 0.5 as a margin. If we get below that, we are essentially stopped
-	    // so we manually set movespeed = 0
-	    movespeed *= 0.95;
-	}
-	else // This means we are below 0.5 speed so we can stop completely
-	{
-	    movespeed = 0;
-	}
-}
-
-//==================
-//x += movespeed;
-
-// First we check to see that the place where we want to move is empty
-if (!place_meeting(x + movespeed, y, obj_grass)) {
-	// If it is empty, we can move there
-	x += movespeed;
+if (h_input == 0 and v_input == 0) {
+	image_speed = 0;
+	image_index = 0;
 }
 else {
-
-	// If it is not empty, we store in xSpeedSign the sign of our speed
-	// (which is -1 for left and 1 for right)
-	var xSpeedSign = sign(movespeed);
-
-	// While there is no collision 1 pixel away in the direction of movement,
-	// we move 1 pixel ahead, until we reach the solid object
-	while( !place_meeting(x + xSpeedSign, y, obj_grass)) {
-	    x += xSpeedSign;
-	}
-
-	// After we reached the solid object we stop
-	movespeed= 0;
+	image_speed = 0.7;
 }
-/*
-//Wall jump &  Wall climb
-if global.energy > 0.99
-{
-	if (place_meeting(x+1,y,obj_grass)) && (key_jump) || (place_meeting(x-1,y,obj_grass)) && (key_jump) {
-		vsp = -jumpspeed; 
-		global.energy += -1;
+
+x += xSpeed;
+if (xSpeed > 0) {
+	if (grid_place_meeting(o_level.grid_, self, VOID)) {
+		x = bbox_right &~ (CELL_WIDTH - 1);
+		x-= bbox_right - x;
+		xSpeed = 0;
+	}
+}
+else if (xSpeed < 0) {
+	if (grid_place_meeting(o_level.grid_, self, VOID)) {
+		x = bbox_left &~ (CELL_WIDTH - 1);
+		x+= CELL_WIDTH + x - bbox_left;
+		xSpeed = 0;
 	}
 }
 
-global.energy += global.energyregenrate;
-*/
+y += ySpeed;
+if (ySpeed > 0) {
+	if (grid_place_meeting(o_level.grid_, self, VOID)) {
+		y = bbox_bottom &~ (CELL_HEIGHT - 1);
+		y-= bbox_bottom - y;
+		ySpeed = 0;
+	}
+}
+else if (ySpeed < 0) {
+	if (grid_place_meeting(o_level.grid_, self, VOID)) {
+		y = bbox_top &~ (CELL_HEIGHT - 1);
+		y+= CELL_HEIGHT + y - bbox_top;
+		ySpeed = 0;
+	}
+}

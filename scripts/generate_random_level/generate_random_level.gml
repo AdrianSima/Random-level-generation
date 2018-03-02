@@ -13,7 +13,19 @@ var _controller_x = width_ div 2,
 	_controller_direction = irandom(3),
 	_steps = 500,
 
-	_direction_change_odds = 1;
+	_direction_change_odds = 1,
+	
+	player_start_x = _controller_x * CELL_WIDTH + CELL_WIDTH / 2,
+	player_start_y = _controller_y * CELL_HEIGHT + CELL_HEIGHT / 2;
+
+// Create the player or move him to spawn
+if (instance_exists(o_player)) {
+	o_player.x = player_start_x;
+	o_player.y = player_start_y;
+}
+else {
+	instance_create_layer(player_start_x, player_start_y, "Instances", o_player);
+}
 
 repeat (_steps) {
 	grid_[# _controller_x, _controller_y] = FLOOR;
@@ -38,7 +50,10 @@ repeat (_steps) {
 	}
 }
 
-// Replace orphan wall tiles with floor tiles
+// Clear the area around the spawn
+ds_grid_set_disk(grid_, player_start_x div CELL_WIDTH, player_start_y div CELL_HEIGHT, 2, FLOOR);
+
+// Apply modifiers to the generations
 if (_rm_walls or _double_walls) {
 	for (var _y = 1; _y < height_ -1; _y += 1) {
 		for (var _x = 1; _x < width_ -1; _x += 1) {
@@ -56,15 +71,26 @@ if (_rm_walls or _double_walls) {
 				var _tile_index = NORTH_WEST * _nw_tile + NORTH * _n_tile + NORTH_EAST * _ne_tile + 
 								  WEST * _w_tile + EAST * _e_tile + 
 								  SOUTH_WEST * _sw_tile + SOUTH * _s_tile + SOUTH_EAST * _se_tile;
+								  
 				//if (_rm_walls and _tile_index == 0) print_r("adiacent tiles", _nw_tile, _n_tile, _ne_tile, _w_tile, _e_tile, _sw_tile, _s_tile, _se_tile);
+				
+				// Replace orphan wall tiles with floor tiles
 				if (_rm_walls and !_n_tile and !_s_tile and !_w_tile and !_e_tile) {
 					show_debug_message("removing orphan wall at tile ["+string(_x)+","+string(_y)+"]");
 					grid_[# _x, _y] = FLOOR;
 				}
+				// If we find a wall that has no neighbour above or below, we add one or remove the wall if we can't add wall
 				if (_double_walls and !_n_tile and !_s_tile) {
-					var _placement = (_y > height_ - 1) ? -1 : 1;
-					show_debug_message("doubling the wall at tile ["+string(_x)+","+string(_y)+"] in direction " + (_placement ? "below":"above"));
-					grid_[# _x, _y + _placement] = VOID;
+					// We check if we close off access to other rooms
+					if (grid_[# _x, _y - 2] == FLOOR) {
+						grid_[# _x, _y - 1] = VOID; // Place wall above
+					}
+					else if (grid_[# _x, _y + 2] == FLOOR) {
+						grid_[# _x, _y + 1] = VOID; // Place wall below
+					}
+					else {
+						grid_[# _x, _y] = FLOOR; // Remove the wall
+					}
 				}
 			}
 		}
@@ -72,8 +98,8 @@ if (_rm_walls or _double_walls) {
 }
 
 // Place the tiles in the room
-for (var _y = 1; _y < height_ -1; _y += 1) {
-	for (var _x = 1; _x < width_ -1; _x += 1) {
+for (var _y = 0; _y < height_; _y += 1) {
+	for (var _x = 0; _x < width_; _x += 1) {
 		if (grid_[# _x, _y] != FLOOR) {
 			// This is a wall tile, but which wall
 			var	_nw_tile	= grid_[# _x - 1, _y - 1]	== VOID,

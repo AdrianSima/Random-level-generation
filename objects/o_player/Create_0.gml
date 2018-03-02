@@ -1,17 +1,12 @@
 /// @description Init player
 
-key_right = 0;
-key_left = -0;
-key_jump = 0;
-key_jump_held = 0;
-key_down = 0;
+xSpeed = 0;
+ySpeed = 0;
+maxSpeed = 2;
+acceleration = 0.5;
 
-acc = 0.25;
-movespeed = 0;
-movespeed_max = 3;
-
-move = 0;
-
-vsp = 0;
-jumpspeed = 8;
-global.grav = 0.5;
+// Create the camera for the player
+var camera = instance_create_layer(x, y, "Instances", Camera);
+with camera {
+	target = other;
+}

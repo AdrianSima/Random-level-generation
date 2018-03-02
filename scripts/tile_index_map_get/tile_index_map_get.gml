@@ -200,7 +200,7 @@ switch(argument0) {
 	case 194: return 32;
 	case 195: return 32;
 	case 196: return 42;
-	case 197: return 32;
+	case 197: return 42;
 	case 198: return 32;
 	case 199: return 32;
 	case 200: return 37;

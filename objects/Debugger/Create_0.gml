@@ -2,9 +2,10 @@
 debug_ = true;
 debug_overlay_ = false;
 
-auto_generate = false;
-
 debug_surface_id_ = noone;
+
+draw_floor_area = false;
+auto_generate = false;
 need_redraw_ = false;
 
 cell_x = noone;

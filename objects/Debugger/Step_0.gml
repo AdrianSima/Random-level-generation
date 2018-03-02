@@ -14,6 +14,10 @@ else if keyboard_check_pressed(vk_f3) {
 else if keyboard_check_pressed(vk_f4) { 
 	auto_generate = !auto_generate;
 }
+else if (debug_ and keyboard_check_pressed(ord("F"))) {
+	draw_floor_area = !draw_floor_area;
+	need_redraw_ = true;
+}
 
 if (mouse_check_button_pressed(mb_left) && instance_exists(o_level)){
 	var _x = mouse_x div CELL_WIDTH,

@@ -10,7 +10,7 @@ height_ = room_height div CELL_HEIGHT;
 grid_ = ds_grid_create(width_, height_);
 
 orphan_walls = true;
-double_walls = false;
+double_walls = true;
 
 #region Build a test level first
 /*
