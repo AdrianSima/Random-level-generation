@@ -1,2 +1,2 @@
 /// @description Zoom out
-if (zoom == zoom_target and zoom < zoom_max) zoom_target = zoom + 1;
+if (zoom_target < zoom_max) zoom_target += .1;

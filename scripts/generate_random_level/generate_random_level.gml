@@ -5,7 +5,7 @@ var _rm_walls = (argument_count > 0) ? argument[0] : false,
 	_double_walls = (argument_count > 1) ? argument[1] : false;
 
 // Clean the room first
-ds_grid_set_region(grid_, 0, 0, width_, height_, VOID);
+ds_grid_set_region(grid_, 0, 0, width_, height_, WALL);
 
 // create the controller (this will move randomly and place floor tiles)
 var _controller_x = width_ div 2,
@@ -59,14 +59,14 @@ if (_rm_walls or _double_walls) {
 		for (var _x = 1; _x < width_ -1; _x += 1) {
 			if (grid_[# _x, _y] != FLOOR) {
 				// This is a wall tile, but which wall
-				var	_nw_tile	= grid_[# _x - 1, _y - 1]	== VOID,
-					_n_tile		= grid_[# _x,	  _y - 1]	== VOID,
-					_ne_tile	= grid_[# _x + 1, _y - 1]	== VOID,
-					_w_tile		= grid_[# _x - 1, _y	]	== VOID,
-					_e_tile		= grid_[# _x + 1, _y	]	== VOID,
-					_sw_tile	= grid_[# _x - 1, _y + 1]	== VOID,
-					_s_tile		= grid_[# _x,	  _y + 1]	== VOID,
-					_se_tile	= grid_[# _x + 1, _y + 1]	== VOID;
+				var	_nw_tile	= grid_[# _x - 1, _y - 1]	== WALL,
+					_n_tile		= grid_[# _x,	  _y - 1]	== WALL,
+					_ne_tile	= grid_[# _x + 1, _y - 1]	== WALL,
+					_w_tile		= grid_[# _x - 1, _y	]	== WALL,
+					_e_tile		= grid_[# _x + 1, _y	]	== WALL,
+					_sw_tile	= grid_[# _x - 1, _y + 1]	== WALL,
+					_s_tile		= grid_[# _x,	  _y + 1]	== WALL,
+					_se_tile	= grid_[# _x + 1, _y + 1]	== WALL;
 				
 				var _tile_index = NORTH_WEST * _nw_tile + NORTH * _n_tile + NORTH_EAST * _ne_tile + 
 								  WEST * _w_tile + EAST * _e_tile + 
@@ -83,10 +83,10 @@ if (_rm_walls or _double_walls) {
 				if (_double_walls and !_n_tile and !_s_tile) {
 					// We check if we close off access to other rooms
 					if (grid_[# _x, _y - 2] == FLOOR) {
-						grid_[# _x, _y - 1] = VOID; // Place wall above
+						grid_[# _x, _y - 1] = WALL; // Place wall above
 					}
 					else if (grid_[# _x, _y + 2] == FLOOR) {
-						grid_[# _x, _y + 1] = VOID; // Place wall below
+						grid_[# _x, _y + 1] = WALL; // Place wall below
 					}
 					else {
 						grid_[# _x, _y] = FLOOR; // Remove the wall
@@ -102,14 +102,14 @@ for (var _y = 0; _y < height_; _y += 1) {
 	for (var _x = 0; _x < width_; _x += 1) {
 		if (grid_[# _x, _y] != FLOOR) {
 			// This is a wall tile, but which wall
-			var	_nw_tile	= grid_[# _x - 1, _y - 1]	== VOID,
-				_n_tile		= grid_[# _x,	  _y - 1]	== VOID,
-				_ne_tile	= grid_[# _x + 1, _y - 1]	== VOID,
-				_w_tile		= grid_[# _x - 1, _y	]	== VOID,
-				_e_tile		= grid_[# _x + 1, _y	]	== VOID,
-				_sw_tile	= grid_[# _x - 1, _y + 1]	== VOID,
-				_s_tile		= grid_[# _x,	  _y + 1]	== VOID,
-				_se_tile	= grid_[# _x + 1, _y + 1]	== VOID;
+			var	_nw_tile	= grid_[# _x - 1, _y - 1]	== WALL,
+				_n_tile		= grid_[# _x,	  _y - 1]	== WALL,
+				_ne_tile	= grid_[# _x + 1, _y - 1]	== WALL,
+				_w_tile		= grid_[# _x - 1, _y	]	== WALL,
+				_e_tile		= grid_[# _x + 1, _y	]	== WALL,
+				_sw_tile	= grid_[# _x - 1, _y + 1]	== WALL,
+				_s_tile		= grid_[# _x,	  _y + 1]	== WALL,
+				_se_tile	= grid_[# _x + 1, _y + 1]	== WALL;
 				
 			var _tile_index = NORTH_WEST * _nw_tile + NORTH * _n_tile + NORTH_EAST * _ne_tile + 
 							  WEST * _w_tile + EAST * _e_tile + 
@@ -117,24 +117,35 @@ for (var _y = 0; _y < height_; _y += 1) {
 				_mapped_index = tile_index_map_get(_tile_index);
 			
 			//show_debug_message("tilemap_set("+string(_mapped_index)+","+string(_x)+","+string(_y)+")");
-			tilemap_set(_tile_map_id, _mapped_index == -1 ? 12 : _mapped_index, _x, _y);
+			tilemap_set(tile_map_id_above, 0, _x, _y);
+			tilemap_set(tile_map_id_below, _mapped_index, _x, _y);
+			if (grid_[# _x, _y - 1] == FLOOR) {
+				var _tile_id = 4;
+				if (grid_[# _x - 1, _y] == WALL and grid_[# _x + 1, _y] == WALL) _tile_id = 2;
+				else if (grid_[# _x - 1, _y] == FLOOR and grid_[# _x + 1, _y] == WALL) _tile_id = 1;
+				else if (grid_[# _x - 1, _y] == WALL and grid_[# _x + 1, _y] == FLOOR) _tile_id = 3;
+				tilemap_set(tile_map_id_above, _tile_id, _x, _y - 1);
+			}
 		}
 		else {
 			//show_debug_message("tilemap_set(FLOOR,"+string(_x)+","+string(_y)+")");
 			
 			// This sets a transparent tile as the floor
-			tilemap_set(_tile_map_id, 0, _x, _y);
+			tilemap_set(tile_map_id_above, 0, _x, _y);
+			tilemap_set(tile_map_id_below, 0, _x, _y);
 			
 			// This removes the tile if there was one
-			/*var data = tilemap_get(_tile_map_id, _x, _y);
+			/*var data = tilemap_get(tile_map_id, _x, _y);
 		    if (!tile_get_empty(data))
 		    {
 				data = tile_set_empty(data);
-				tilemap_set(_tile_map_id, data, _x, _y);
+				tilemap_set(tile_map_id, data, _x, _y);
 			}*/
 		}
 	}
 }
+
+shadow_need_redraw = true;
 
 // flag the debug overlay for redrawing
 with (Debugger) {

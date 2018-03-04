@@ -18,6 +18,8 @@ else if (debug_ and keyboard_check_pressed(ord("F"))) {
 	draw_floor_area = !draw_floor_area;
 	need_redraw_ = true;
 }
+else if(keyboard_check_pressed(vk_add)) with o_player { maxSpeed += .5; }
+else if(keyboard_check_pressed(vk_subtract)) with o_player { maxSpeed -= .5; }
 
 if (mouse_check_button_pressed(mb_left) && instance_exists(o_level)){
 	var _x = mouse_x div CELL_WIDTH,
@@ -25,17 +27,17 @@ if (mouse_check_button_pressed(mb_left) && instance_exists(o_level)){
 		cell_x = _x * CELL_WIDTH;
 		cell_y = _y * CELL_HEIGHT;
 	
-	if (o_level.grid_[# _x, _y] == VOID) {
+	if (o_level.grid_[# _x, _y] == WALL) {
 		with (o_level) {
 			// This is a wall tile, but which wall
-			var	_nw_tile	= grid_[# _x - 1, _y - 1]	== VOID,
-				_n_tile		= grid_[# _x,	  _y - 1]	== VOID,
-				_ne_tile	= grid_[# _x + 1, _y - 1]	== VOID,
-				_w_tile		= grid_[# _x - 1, _y	]	== VOID,
-				_e_tile		= grid_[# _x + 1, _y	]	== VOID,
-				_sw_tile	= grid_[# _x - 1, _y + 1]	== VOID,
-				_s_tile		= grid_[# _x,	  _y + 1]	== VOID,
-				_se_tile	= grid_[# _x + 1, _y + 1]	== VOID;
+			var	_nw_tile	= grid_[# _x - 1, _y - 1]	== WALL,
+				_n_tile		= grid_[# _x,	  _y - 1]	== WALL,
+				_ne_tile	= grid_[# _x + 1, _y - 1]	== WALL,
+				_w_tile		= grid_[# _x - 1, _y	]	== WALL,
+				_e_tile		= grid_[# _x + 1, _y	]	== WALL,
+				_sw_tile	= grid_[# _x - 1, _y + 1]	== WALL,
+				_s_tile		= grid_[# _x,	  _y + 1]	== WALL,
+				_se_tile	= grid_[# _x + 1, _y + 1]	== WALL;
 		}
 				
 		cell_tile_index = NORTH_WEST * _nw_tile + NORTH * _n_tile + NORTH_EAST * _ne_tile + 

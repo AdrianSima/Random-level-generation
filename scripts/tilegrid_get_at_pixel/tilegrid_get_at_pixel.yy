@@ -1,8 +1,8 @@
 {
-    "id": "7234f139-0a84-4d8d-9567-01275519e27c",
+    "id": "e49d617b-1515-41e2-907c-ebfa4a99d225",
     "modelName": "GMScript",
     "mvc": "1.0",
-    "name": "grid_place_meeting",
+    "name": "tilegrid_get_at_pixel",
     "IsCompatibility": false,
     "IsDnD": false
 }

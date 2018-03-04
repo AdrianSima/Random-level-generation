@@ -20,14 +20,14 @@ if (instance_exists(o_level)) {
 						
 					if (grid_[# _x, _y] != FLOOR) {
 						// This is a wall tile, but which wall
-						var	_nw_tile	= grid_[# _x - 1, _y - 1]	== VOID,
-							_n_tile		= grid_[# _x,	  _y - 1]	== VOID,
-							_ne_tile	= grid_[# _x + 1, _y - 1]	== VOID,
-							_w_tile		= grid_[# _x - 1, _y	]	== VOID,
-							_e_tile		= grid_[# _x + 1, _y	]	== VOID,
-							_sw_tile	= grid_[# _x - 1, _y + 1]	== VOID,
-							_s_tile		= grid_[# _x,	  _y + 1]	== VOID,
-							_se_tile	= grid_[# _x + 1, _y + 1]	== VOID;
+						var	_nw_tile	= grid_[# _x - 1, _y - 1]	== WALL,
+							_n_tile		= grid_[# _x,	  _y - 1]	== WALL,
+							_ne_tile	= grid_[# _x + 1, _y - 1]	== WALL,
+							_w_tile		= grid_[# _x - 1, _y	]	== WALL,
+							_e_tile		= grid_[# _x + 1, _y	]	== WALL,
+							_sw_tile	= grid_[# _x - 1, _y + 1]	== WALL,
+							_s_tile		= grid_[# _x,	  _y + 1]	== WALL,
+							_se_tile	= grid_[# _x + 1, _y + 1]	== WALL;
 				
 						var _tile_index = NORTH_WEST * _nw_tile + NORTH * _n_tile + NORTH_EAST * _ne_tile + 
 										  WEST * _w_tile + EAST * _e_tile + 
@@ -63,4 +63,12 @@ else need_redraw_ = true;
 
 if (cell_mapped_index != noone) {
 	draw_text(cell_x, cell_y, string(cell_tile_index) + "\r\n" + string(cell_mapped_index));
+}
+
+with o_player {
+	draw_set_color(c_red);
+	draw_set_alpha(0.5);
+	draw_rectangle(bbox_left, bbox_top, bbox_right, bbox_bottom, false);
+	draw_set_alpha(1.0);
+	draw_set_color(c_white);
 }

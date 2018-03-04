@@ -66,7 +66,7 @@
             "Key": "18208bc1-a151-448b-bf22-217d3d395f9c",
             "Value": {
                 "id": "4436dc5b-3f75-4abf-ae1d-272bdf28ac3f",
-                "resourcePath": "scripts\\grid_place_meeting\\grid_place_meeting.yy",
+                "resourcePath": "scripts\\grid_tile_meeting\\grid_tile_meeting.yy",
                 "resourceType": "GMScript"
             }
         },
@@ -84,6 +84,14 @@
                 "id": "9372697a-b30d-4377-b707-c1ecbe5aad87",
                 "resourcePath": "sprites\\s_wall_tiles\\s_wall_tiles.yy",
                 "resourceType": "GMSprite"
+            }
+        },
+        {
+            "Key": "3171a7a5-9518-4db4-afdd-2933792fa97c",
+            "Value": {
+                "id": "1c693e53-4cd5-4691-beaa-f14bb82e01ad",
+                "resourcePath": "tilesets\\t_walls_above\\t_walls_above.yy",
+                "resourceType": "GMTileSet"
             }
         },
         {
@@ -148,6 +156,14 @@
                 "id": "1ea1de45-3f55-48a5-a9f6-6c84e0a055a9",
                 "resourcePath": "views\\6a2216eb-de07-44e1-b494-b06ac976002c.yy",
                 "resourceType": "GMFolder"
+            }
+        },
+        {
+            "Key": "7234f139-0a84-4d8d-9567-01275519e27c",
+            "Value": {
+                "id": "37683330-be6a-48d9-9583-a3606a983dc6",
+                "resourcePath": "scripts\\grid_place_meeting\\grid_place_meeting.yy",
+                "resourceType": "GMScript"
             }
         },
         {
@@ -295,6 +311,30 @@
             }
         },
         {
+            "Key": "e19fcd3b-dd0a-4e41-8f50-5b92fbcd5bae",
+            "Value": {
+                "id": "0adf0fca-61c1-47d5-ada9-455025b81214",
+                "resourcePath": "sprites\\s_wall_tiles_above\\s_wall_tiles_above.yy",
+                "resourceType": "GMSprite"
+            }
+        },
+        {
+            "Key": "e49d617b-1515-41e2-907c-ebfa4a99d225",
+            "Value": {
+                "id": "88eb95f7-d406-44e9-9f21-e2211ebbe4c1",
+                "resourcePath": "scripts\\tilegrid_get_at_pixel\\tilegrid_get_at_pixel.yy",
+                "resourceType": "GMScript"
+            }
+        },
+        {
+            "Key": "e5c19346-b73d-4848-8040-0b0a4fe43e73",
+            "Value": {
+                "id": "cd631ef7-8026-409d-966b-53b34647cb82",
+                "resourcePath": "scripts\\in_array\\in_array.yy",
+                "resourceType": "GMScript"
+            }
+        },
+        {
             "Key": "eae4e1f7-845c-4873-9def-46833d22aef2",
             "Value": {
                 "id": "7be56983-722c-4fbf-aa7f-bb16d21a3ea9",
@@ -340,7 +380,10 @@
         "dbd78f3e-0b86-4354-8f5b-ff0e48b0eedf",
         "0c64418a-da50-4c3a-ac1c-60ec535b458e",
         "d7e9fd6b-c972-4bb3-bb13-f420835e1372",
-        "18208bc1-a151-448b-bf22-217d3d395f9c"
+        "18208bc1-a151-448b-bf22-217d3d395f9c",
+        "7234f139-0a84-4d8d-9567-01275519e27c",
+        "e5c19346-b73d-4848-8040-0b0a4fe43e73",
+        "e49d617b-1515-41e2-907c-ebfa4a99d225"
     ],
     "tutorial": ""
 }
