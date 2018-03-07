@@ -185,4 +185,7 @@ with Debugger { need_redraw_ = true; }
 */
 #endregion
 
-generate_random_level(!orphan_walls, double_walls);
+if (room == rm_test)
+	generate_test_level();
+else
+	generate_random_level(!orphan_walls, double_walls);

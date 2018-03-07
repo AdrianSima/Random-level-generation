@@ -11,7 +11,7 @@ half_height = height / 2;
 zoom = 1;
 zoom_target = 1;
 zoom_min = 1;
-zoom_max = 4;
+zoom_max = 5;
 
 main_camera = camera_create_view(0, 0, width, height, 0, self, -1, -1, -1, -1);
 view_set_camera(0, main_camera);

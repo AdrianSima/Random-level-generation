@@ -37,21 +37,25 @@ if (xSpeed != 0 and ySpeed != 0)
 
 var bbox_side;
 // Horizontal Collision
-if (xSpeed > 0) bbox_side = bbox_right; else bbox_side = bbox_left;
-if (tile_grid_get_at_pixel(o_level.grid_, bbox_side+xSpeed, bbox_top) != FLOOR) || (tile_grid_get_at_pixel(o_level.grid_, bbox_side+xSpeed, bbox_bottom) != FLOOR)
-{
-	if (xSpeed > 0) x = x - (x mod CELL_WIDTH) + CELL_WIDTH-1 - (bbox_right - x);
-	else x = x - (x mod CELL_WIDTH) - (bbox_left - x);
-	xSpeed = 0;
+if (!Debugger.debug_) {
+	if (xSpeed > 0) bbox_side = bbox_right; else bbox_side = bbox_left;
+	if (tilegrid_get_at_pixel(o_level.grid_, bbox_side+xSpeed, bbox_top) != FLOOR) || (tilegrid_get_at_pixel(o_level.grid_, bbox_side+xSpeed, bbox_bottom) != FLOOR)
+	{
+		if (xSpeed > 0) x = x - (x mod CELL_WIDTH) + CELL_WIDTH-1 - (bbox_right - x);
+		else x = x - (x mod CELL_WIDTH) - (bbox_left - x);
+		xSpeed = 0;
+	}
 }
 x += xSpeed;
 
 // Vertical Collision
-if (ySpeed > 0) bbox_side = bbox_bottom; else bbox_side = bbox_top;
-if (tile_grid_get_at_pixel(o_level.grid_, bbox_left, bbox_side+ySpeed) != FLOOR) || (tile_grid_get_at_pixel(o_level.grid_, bbox_right, bbox_side+ySpeed) != FLOOR)
-{
-	if (ySpeed > 0) y = y - (y mod CELL_HEIGHT) + CELL_HEIGHT-1 - (bbox_bottom - y);
-	else y = y - (y mod CELL_HEIGHT) - (bbox_top - y);
-	ySpeed = 0;
+if (!Debugger.debug_) {
+	if (ySpeed > 0) bbox_side = bbox_bottom; else bbox_side = bbox_top;
+	if (tilegrid_get_at_pixel(o_level.grid_, bbox_left, bbox_side+ySpeed) != FLOOR) || (tilegrid_get_at_pixel(o_level.grid_, bbox_right, bbox_side+ySpeed) != FLOOR)
+	{
+		if (ySpeed > 0) y = y - (y mod CELL_HEIGHT) + CELL_HEIGHT-1 - (bbox_bottom - y);
+		else y = y - (y mod CELL_HEIGHT) - (bbox_top - y);
+		ySpeed = 0;
+	}
 }
 y += ySpeed;

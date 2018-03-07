@@ -6,13 +6,15 @@ I've tried to change it to a 47 Tiles type
 **Keys / Buttons**
 - Mouse Wheel zoom in/out
 - +/- Raise or lower max move speed
-- F2 toggles custom debug overlay
+- F2 toggles custom debug overlay. It also disables collisions
 - F3 toggles Game Maker debug overlay
 - F4 toggles automatic level generation until it finds an unallocated tile
 - F5 restarts the game
 - R generates a new level
 - T toggles orphan walls
 - Y toggles double walls
+- F toggles tiles overlay
+- M toggles visibility of walls
 - ESC closes the game
 
 **Notes**

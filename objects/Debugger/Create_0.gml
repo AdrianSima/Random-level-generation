@@ -4,7 +4,7 @@ debug_overlay_ = false;
 
 debug_surface_id_ = noone;
 
-draw_floor_area = false;
+draw_floor_area = true;
 auto_generate = false;
 need_redraw_ = false;
 

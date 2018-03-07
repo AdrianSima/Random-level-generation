@@ -36,16 +36,24 @@ if (instance_exists(o_level)) {
 						
 						if (_mapped_index == -1) {
 							_has_unknown_tile = true;
-							audio_play_sound(snd_alert, 1, true);
+							//audio_play_sound(snd_alert, 1, true);
 							draw_text(_cell_pos_x, _cell_pos_y, string(_tile_index) + "\r\n" + string(_mapped_index));
+						}
+						if (other.draw_floor_area){
+							// This tile collision
+							draw_sprite(s_debug_walls, 0, _cell_pos_x, _cell_pos_y);
 						}
 					}
 					else if (other.draw_floor_area){
 						// This is a floor tile
-						draw_sprite(s_debug, 0, _cell_pos_x, _cell_pos_y);
+						//draw_sprite(s_debug, 0, _cell_pos_x, _cell_pos_y);
 					}
 				}
 			}
+		}
+		if (draw_floor_area){
+			// This tile collision
+			draw_sprite(s_numbers_overlay, 0, 0, 0);
 		}
 		surface_reset_target();
 		need_redraw_ = false;

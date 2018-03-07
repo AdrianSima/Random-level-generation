@@ -20,6 +20,12 @@ else if (debug_ and keyboard_check_pressed(ord("F"))) {
 }
 else if(keyboard_check_pressed(vk_add)) with o_player { maxSpeed += .5; }
 else if(keyboard_check_pressed(vk_subtract)) with o_player { maxSpeed -= .5; }
+else if(keyboard_check_pressed(ord("M"))) {
+	var _layer_above = layer_get_id("WallTilesAbove"),
+		_layer_below = layer_get_id("WallTilesBelow");
+	layer_set_visible(_layer_above, !layer_get_visible(_layer_above));
+	layer_set_visible(_layer_below, !layer_get_visible(_layer_below));
+}
 
 if (mouse_check_button_pressed(mb_left) && instance_exists(o_level)){
 	var _x = mouse_x div CELL_WIDTH,
