@@ -51,7 +51,7 @@ if (instance_exists(o_level)) {
 				}
 			}
 		}
-		if (draw_floor_area){
+		if (room == rm_test and draw_floor_area){
 			// This tile collision
 			draw_sprite(s_numbers_overlay, 0, 0, 0);
 		}
@@ -70,13 +70,17 @@ if (surface_exists(debug_surface_id_)) {
 else need_redraw_ = true;
 
 if (cell_mapped_index != noone) {
-	draw_text(cell_x, cell_y, string(cell_tile_index) + "\r\n" + string(cell_mapped_index));
+	//draw_text(cell_x, cell_y, string(cell_tile_index) + "\r\n" + string(cell_mapped_index));
+	draw_text_outline(cell_x, cell_y, string(cell_tile_index) + "\r\n" + string(cell_mapped_index), 1, 4, c_aqua);
+}
+else if (cell_tile_x != noone and cell_tile_y != noone) {
+	//draw_text(cell_x, cell_y, string(cell_tile_x) + ",\r\n" + string(cell_tile_y));
+	draw_text_outline(cell_x, cell_y, "x:" + string(cell_tile_x) + "\r\ny:" + string(cell_tile_y), 1, 4, c_yellow);
 }
 
+// Draw player collision mask
 with o_player {
-	draw_set_color(c_red);
-	draw_set_alpha(0.5);
-	draw_rectangle(bbox_left, bbox_top, bbox_right, bbox_bottom, false);
-	draw_set_alpha(1.0);
-	draw_set_color(c_white);
+	var _bbox_width = abs(bbox_right - bbox_left),
+		_bbox_height = abs(bbox_bottom - bbox_top);
+	draw_sprite_ext(s_debug_mask_overlay, 0, x - _bbox_width/2, y - _bbox_height/2, _bbox_width, _bbox_height, 0, c_white, 1);
 }

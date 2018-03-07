@@ -1,4 +1,4 @@
-/// @func print(value1, value2, ...)
+/// @func Print(value1, value2, ...)
 /// @desc This will print all the arguments separated by a space in the console
 /// @param value1 First value to print
 /// @param value2 Second value to print

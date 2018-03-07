@@ -13,7 +13,6 @@ height_ = room_height div CELL_HEIGHT;
 grid_ = ds_grid_create(width_, height_);
 
 orphan_walls = true;
-double_walls = true;
 
 #region Build a test level first
 /*
@@ -188,4 +187,4 @@ with Debugger { need_redraw_ = true; }
 if (room == rm_test)
 	generate_test_level();
 else
-	generate_random_level(!orphan_walls, double_walls);
+	generate_random_level(!orphan_walls);

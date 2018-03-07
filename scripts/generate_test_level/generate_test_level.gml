@@ -5,24 +5,26 @@
 ds_grid_set_region(grid_, 0, 0, width_, height_, WALL);
 ds_grid_set_region(grid_, 2, 2, width_-3, height_-3, FLOOR);
 
-var	player_start_x = 4 * CELL_WIDTH,
-	player_start_y = 4 * CELL_HEIGHT;
+var	_player_start_x = 4 * CELL_WIDTH,
+	_player_start_y = 4 * CELL_HEIGHT;
 
 // Create the player or move him to spawn
 if (instance_exists(o_player)) {
-	o_player.x = player_start_x;
-	o_player.y = player_start_y;
+	o_player.x = _player_start_x;
+	o_player.y = _player_start_y;
 }
 else {
-	instance_create_layer(player_start_x, player_start_y, "Instances", o_player);
+	instance_create_layer(_player_start_x, _player_start_y, "Instances", o_player);
 }
 
+// Set values acceptable for level testing
 with o_player {
 	maxSpeed = 20;
-	camera.zoom_target = 4;
+	camera.zoom_target = 5;
 }
 
 // Generate the tile values
+// First we generate sets of 3x3 tiles at 1 tile apart
 for (var _i = 1; _i < 14; _i += 1) {
 	for (var _j = 1; _j < 14; _j += 1) {
 		if !(_i == 1 and _j == 1) {
@@ -30,7 +32,7 @@ for (var _i = 1; _i < 14; _i += 1) {
 		}
 	}
 }
-
+// Then we carve out each set to the desired combination
 #region Manually carve the level
 // 2
 grid_[# 13, 5] = FLOOR;
@@ -500,61 +502,537 @@ grid_[# 21, 34] = FLOOR;
 grid_[# 23, 34] = FLOOR;
 grid_[# 22, 35] = FLOOR;
 
+// 96
+grid_[# 25, 33] = FLOOR;
+grid_[# 26, 33] = FLOOR;
+grid_[# 27, 33] = FLOOR;
+grid_[# 27, 34] = FLOOR;
+grid_[# 27, 35] = FLOOR;
+
+// 97
+grid_[# 30, 33] = FLOOR;
+grid_[# 31, 33] = FLOOR;
+grid_[# 31, 34] = FLOOR;
+grid_[# 31, 35] = FLOOR;
+grid_[# 30, 35] = FLOOR;
+
+// 98
+grid_[# 35, 33] = FLOOR;
+grid_[# 35, 34] = FLOOR;
+grid_[# 35, 35] = FLOOR;
+grid_[# 34, 35] = FLOOR;
+grid_[# 33, 35] = FLOOR;
+
+// 99
+grid_[# 37, 34] = FLOOR;
+grid_[# 39, 34] = FLOOR;
+grid_[# 37, 35] = FLOOR;
+grid_[# 38, 35] = FLOOR;
+grid_[# 39, 35] = FLOOR;
+
+// 100
+grid_[# 41, 33] = FLOOR;
+grid_[# 41, 34] = FLOOR;
+grid_[# 41, 35] = FLOOR;
+grid_[# 42, 35] = FLOOR;
+grid_[# 43, 35] = FLOOR;
+
+// 101
+grid_[# 45, 33] = FLOOR;
+grid_[# 46, 33] = FLOOR;
+grid_[# 45, 34] = FLOOR;
+grid_[# 45, 35] = FLOOR;
+grid_[# 46, 35] = FLOOR;
+
+// 102
+grid_[# 49, 33] = FLOOR;
+grid_[# 50, 33] = FLOOR;
+grid_[# 51, 33] = FLOOR;
+grid_[# 49, 34] = FLOOR;
+grid_[# 49, 35] = FLOOR;
+
+// 103
+grid_[# 53, 33] = FLOOR;
+grid_[# 54, 33] = FLOOR;
+grid_[# 55, 33] = FLOOR;
+grid_[# 53, 34] = FLOOR;
+grid_[# 55, 34] = FLOOR;
+
+// 104
+grid_[# 5, 37] = FLOOR;
+grid_[# 6, 37] = FLOOR;
+grid_[# 7, 37] = FLOOR;
+grid_[# 6, 39] = FLOOR;
+grid_[# 7, 39] = FLOOR;
+
+// 105
+grid_[# 10, 37] = FLOOR;
+grid_[# 11, 37] = FLOOR;
+grid_[# 11, 38] = FLOOR;
+grid_[# 9, 39] = FLOOR;
+grid_[# 10, 39] = FLOOR;
+
+// 106
+grid_[# 15, 37] = FLOOR;
+grid_[# 13, 38] = FLOOR;
+grid_[# 15, 38] = FLOOR;
+grid_[# 13, 39] = FLOOR;
+grid_[# 15, 39] = FLOOR;
+
+// 107
+grid_[# 17, 37] = FLOOR;
+grid_[# 18, 37] = FLOOR;
+grid_[# 19, 38] = FLOOR;
+grid_[# 18, 39] = FLOOR;
+grid_[# 19, 39] = FLOOR;
+
+// 108
+grid_[# 21, 37] = FLOOR;
+grid_[# 22, 37] = FLOOR;
+grid_[# 21, 39] = FLOOR;
+grid_[# 22, 39] = FLOOR;
+grid_[# 23, 39] = FLOOR;
+
+// 109
+grid_[# 26, 37] = FLOOR;
+grid_[# 27, 37] = FLOOR;
+grid_[# 25, 38] = FLOOR;
+grid_[# 25, 39] = FLOOR;
+grid_[# 26, 39] = FLOOR;
+
+// 110
+grid_[# 29, 37] = FLOOR;
+grid_[# 31, 37] = FLOOR;
+grid_[# 29, 38] = FLOOR;
+grid_[# 31, 38] = FLOOR;
+grid_[# 29, 39] = FLOOR;
+
+// 111
+grid_[# 33, 37] = FLOOR;
+grid_[# 34, 37] = FLOOR;
+grid_[# 33, 38] = FLOOR;
+grid_[# 35, 38] = FLOOR;
+grid_[# 35, 39] = FLOOR;
+
+// 112
+grid_[# 37, 37] = FLOOR;
+grid_[# 38, 37] = FLOOR;
+grid_[# 39, 38] = FLOOR;
+grid_[# 38, 39] = FLOOR;
+grid_[# 39, 39] = FLOOR;
+
+// 113
+grid_[# 42, 37] = FLOOR;
+grid_[# 43, 37] = FLOOR;
+grid_[# 41, 39] = FLOOR;
+grid_[# 42, 39] = FLOOR;
+grid_[# 43, 39] = FLOOR;
+
+// 114
+grid_[# 47, 37] = FLOOR;
+grid_[# 45, 38] = FLOOR;
+grid_[# 47, 38] = FLOOR;
+grid_[# 45, 39] = FLOOR;
+grid_[# 46, 39] = FLOOR;
+
+// 115
+grid_[# 49, 37] = FLOOR;
+grid_[# 49, 38] = FLOOR;
+grid_[# 51, 38] = FLOOR;
+grid_[# 49, 39] = FLOOR;
+grid_[# 51, 39] = FLOOR;
+
+// 116
+grid_[# 53, 37] = FLOOR;
+grid_[# 54, 37] = FLOOR;
+grid_[# 53, 38] = FLOOR;
+grid_[# 54, 39] = FLOOR;
+grid_[# 55, 39] = FLOOR;
+
+// 117
+grid_[# 5, 41] = FLOOR;
+grid_[# 6, 41] = FLOOR;
+grid_[# 7, 41] = FLOOR;
+grid_[# 5, 43] = FLOOR;
+grid_[# 6, 43] = FLOOR;
+
+// 118
+grid_[# 10, 41] = FLOOR;
+grid_[# 11, 41] = FLOOR;
+grid_[# 9, 42] = FLOOR;
+grid_[# 11, 42] = FLOOR;
+grid_[# 9, 43] = FLOOR;
+
+// 119
+grid_[# 13, 41] = FLOOR;
+grid_[# 15, 41] = FLOOR;
+grid_[# 13, 42] = FLOOR;
+grid_[# 15, 42] = FLOOR;
+grid_[# 15, 43] = FLOOR;
+
+// 120
+grid_[# 17, 41] = FLOOR;
+grid_[# 18, 41] = FLOOR;
+grid_[# 19, 41] = FLOOR;
+grid_[# 19, 42] = FLOOR;
+grid_[# 18, 43] = FLOOR;
+
+// 121
+grid_[# 22, 41] = FLOOR;
+grid_[# 23, 41] = FLOOR;
+grid_[# 23, 42] = FLOOR;
+grid_[# 21, 43] = FLOOR;
+grid_[# 23, 42] = FLOOR;
+
+// 122
+grid_[# 27, 41] = FLOOR;
+grid_[# 25, 42] = FLOOR;
+grid_[# 27, 42] = FLOOR;
+grid_[# 26, 43] = FLOOR;
+grid_[# 27, 43] = FLOOR;
+
+// 123
+grid_[# 29, 41] = FLOOR;
+grid_[# 31, 42] = FLOOR;
+grid_[# 29, 43] = FLOOR;
+grid_[# 30, 43] = FLOOR;
+grid_[# 31, 43] = FLOOR;
+
+// 124
+grid_[# 34, 41] = FLOOR;
+grid_[# 33, 42] = FLOOR;
+grid_[# 33, 43] = FLOOR;
+grid_[# 34, 43] = FLOOR;
+grid_[# 35, 43] = FLOOR;
+
+// 125
+grid_[# 37, 41] = FLOOR;
+grid_[# 39, 41] = FLOOR;
+grid_[# 37, 42] = FLOOR;
+grid_[# 37, 43] = FLOOR;
+grid_[# 38, 43] = FLOOR;
+
+// 126
+grid_[# 41, 41] = FLOOR;
+grid_[# 42, 41] = FLOOR;
+grid_[# 41, 42] = FLOOR;
+grid_[# 43, 42] = FLOOR;
+grid_[# 41, 43] = FLOOR;
+
+// 127
+grid_[# 45, 41] = FLOOR;
+grid_[# 46, 41] = FLOOR;
+grid_[# 47, 41] = FLOOR;
+grid_[# 45, 42] = FLOOR;
+grid_[# 47, 43] = FLOOR;
+
+// 128
+grid_[# 49, 41] = FLOOR;
+grid_[# 51, 41] = FLOOR;
+grid_[# 51, 42] = FLOOR;
+grid_[# 50, 43] = FLOOR;
+grid_[# 51, 43] = FLOOR;
+
+// 129
+grid_[# 54, 41] = FLOOR;
+grid_[# 55, 42] = FLOOR;
+grid_[# 53, 43] = FLOOR;
+grid_[# 54, 43] = FLOOR;
+grid_[# 55, 43] = FLOOR;
+
+// 130
+grid_[# 7, 45] = FLOOR;
+grid_[# 5, 46] = FLOOR;
+grid_[# 5, 47] = FLOOR;
+grid_[# 6, 47] = FLOOR;
+grid_[# 7, 47] = FLOOR;
+
+// 131
+grid_[# 9, 45] = FLOOR;
+grid_[# 9, 46] = FLOOR;
+grid_[# 11, 46] = FLOOR;
+grid_[# 9, 47] = FLOOR;
+grid_[# 10, 47] = FLOOR;
+
+// 132
+grid_[# 13, 45] = FLOOR;
+grid_[# 14, 45] = FLOOR;
+grid_[# 13, 46] = FLOOR;
+grid_[# 13, 47] = FLOOR;
+grid_[# 15, 47] = FLOOR;
+
+// 133
+grid_[# 17, 45] = FLOOR;
+grid_[# 18, 45] = FLOOR;
+grid_[# 19, 45] = FLOOR;
+grid_[# 17, 46] = FLOOR;
+grid_[# 18, 47] = FLOOR;
+
+// 134
+grid_[# 21, 45] = FLOOR;
+grid_[# 22, 45] = FLOOR;
+grid_[# 23, 45] = FLOOR;
+grid_[# 23, 46] = FLOOR;
+grid_[# 21, 47] = FLOOR;
+
+// 135
+grid_[# 26, 45] = FLOOR;
+grid_[# 27, 45] = FLOOR;
+grid_[# 25, 46] = FLOOR;
+grid_[# 27, 46] = FLOOR;
+grid_[# 27, 47] = FLOOR;
+
+// 136
+grid_[# 29, 45] = FLOOR;
+grid_[# 30, 45] = FLOOR;
+grid_[# 31, 45] = FLOOR;
+grid_[# 29, 47] = FLOOR;
+grid_[# 30, 47] = FLOOR;
+grid_[# 31, 47] = FLOOR;
+
+// 137
+grid_[# 34, 45] = FLOOR;
+grid_[# 35, 45] = FLOOR;
+grid_[# 33, 46] = FLOOR;
+grid_[# 35, 46] = FLOOR;
+grid_[# 33, 47] = FLOOR;
+grid_[# 34, 47] = FLOOR;
+
+// 138
+grid_[# 37, 45] = FLOOR;
+grid_[# 39, 45] = FLOOR;
+grid_[# 37, 46] = FLOOR;
+grid_[# 39, 46] = FLOOR;
+grid_[# 37, 47] = FLOOR;
+grid_[# 39, 47] = FLOOR;
+
+// 139
+grid_[# 41, 45] = FLOOR;
+grid_[# 42, 45] = FLOOR;
+grid_[# 41, 46] = FLOOR;
+grid_[# 43, 46] = FLOOR;
+grid_[# 42, 47] = FLOOR;
+grid_[# 43, 47] = FLOOR;
+
+// 140
+grid_[# 45, 45] = FLOOR;
+grid_[# 47, 45] = FLOOR;
+grid_[# 47, 46] = FLOOR;
+grid_[# 45, 47] = FLOOR;
+grid_[# 46, 47] = FLOOR;
+grid_[# 47, 47] = FLOOR;
+
+// 141
+grid_[# 50, 45] = FLOOR;
+grid_[# 49, 46] = FLOOR;
+grid_[# 51, 46] = FLOOR;
+grid_[# 49, 47] = FLOOR;
+grid_[# 50, 47] = FLOOR;
+grid_[# 51, 47] = FLOOR;
+
+// 142
+grid_[# 53, 45] = FLOOR;
+grid_[# 55, 45] = FLOOR;
+grid_[# 55, 46] = FLOOR;
+grid_[# 53, 47] = FLOOR;
+grid_[# 54, 47] = FLOOR;
+grid_[# 55, 47] = FLOOR;
+
+// 143
+grid_[# 5, 49] = FLOOR;
+grid_[# 6, 49] = FLOOR;
+grid_[# 5, 50] = FLOOR;
+grid_[# 7, 50] = FLOOR;
+grid_[# 5, 51] = FLOOR;
+grid_[# 6, 51] = FLOOR;
+
+// 144
+grid_[# 9, 49] = FLOOR;
+grid_[# 10, 49] = FLOOR;
+grid_[# 11, 49] = FLOOR;
+grid_[# 9, 50] = FLOOR;
+grid_[# 9, 51] = FLOOR;
+grid_[# 11, 51] = FLOOR;
+
+// 145
+grid_[# 13, 49] = FLOOR;
+grid_[# 14, 49] = FLOOR;
+grid_[# 15, 49] = FLOOR;
+grid_[# 13, 50] = FLOOR;
+grid_[# 15, 50] = FLOOR;
+grid_[# 14, 51] = FLOOR;
+
+// 146
+grid_[# 17, 49] = FLOOR;
+grid_[# 18, 49] = FLOOR;
+grid_[# 19, 49] = FLOOR;
+grid_[# 19, 50] = FLOOR;
+grid_[# 17, 51] = FLOOR;
+grid_[# 19, 51] = FLOOR;
+
+// 147
+grid_[# 22, 49] = FLOOR;
+grid_[# 23, 49] = FLOOR;
+grid_[# 21, 50] = FLOOR;
+grid_[# 23, 50] = FLOOR;
+grid_[# 22, 51] = FLOOR;
+grid_[# 23, 51] = FLOOR;
+
+// 148
+grid_[# 25, 49] = FLOOR;
+grid_[# 26, 49] = FLOOR;
+grid_[# 27, 50] = FLOOR;
+grid_[# 25, 51] = FLOOR;
+grid_[# 26, 51] = FLOOR;
+grid_[# 27, 51] = FLOOR;
+
+// 149
+grid_[# 30, 49] = FLOOR;
+grid_[# 31, 49] = FLOOR;
+grid_[# 29, 50] = FLOOR;
+grid_[# 29, 51] = FLOOR;
+grid_[# 30, 51] = FLOOR;
+grid_[# 31, 51] = FLOOR;
+
+// 150
+grid_[# 33, 49] = FLOOR;
+grid_[# 35, 49] = FLOOR;
+grid_[# 33, 50] = FLOOR;
+grid_[# 35, 50] = FLOOR;
+grid_[# 33, 51] = FLOOR;
+grid_[# 34, 51] = FLOOR;
+
+// 151
+grid_[# 37, 49] = FLOOR;
+grid_[# 38, 49] = FLOOR;
+grid_[# 37, 50] = FLOOR;
+grid_[# 39, 50] = FLOOR;
+grid_[# 37, 51] = FLOOR;
+grid_[# 39, 51] = FLOOR;
+
+// 152
+grid_[# 41, 49] = FLOOR;
+grid_[# 42, 49] = FLOOR;
+grid_[# 43, 49] = FLOOR;
+grid_[# 41, 50] = FLOOR;
+grid_[# 42, 51] = FLOOR;
+grid_[# 43, 51] = FLOOR;
+
+// 153
+grid_[# 45, 49] = FLOOR;
+grid_[# 46, 49] = FLOOR;
+grid_[# 47, 49] = FLOOR;
+grid_[# 47, 50] = FLOOR;
+grid_[# 45, 51] = FLOOR;
+grid_[# 46, 51] = FLOOR;
+
+// 154
+grid_[# 50, 49] = FLOOR;
+grid_[# 51, 49] = FLOOR;
+grid_[# 49, 50] = FLOOR;
+grid_[# 51, 50] = FLOOR;
+grid_[# 49, 51] = FLOOR;
+grid_[# 51, 51] = FLOOR;
+
+// 155
+grid_[# 53, 49] = FLOOR;
+grid_[# 55, 49] = FLOOR;
+grid_[# 53, 50] = FLOOR;
+grid_[# 55, 50] = FLOOR;
+grid_[# 54, 51] = FLOOR;
+grid_[# 55, 51] = FLOOR;
+
+// 156
+grid_[# 5, 53] = FLOOR;
+grid_[# 6, 53] = FLOOR;
+grid_[# 7, 53] = FLOOR;
+grid_[# 7, 54] = FLOOR;
+grid_[# 5, 55] = FLOOR;
+grid_[# 6, 55] = FLOOR;
+grid_[# 7, 55] = FLOOR;
+
+// 157
+grid_[# 10, 53] = FLOOR;
+grid_[# 11, 53] = FLOOR;
+grid_[# 9, 54] = FLOOR;
+grid_[# 11, 54] = FLOOR;
+grid_[# 9, 55] = FLOOR;
+grid_[# 10, 55] = FLOOR;
+grid_[# 11, 55] = FLOOR;
+
+// 158
+grid_[# 13, 53] = FLOOR;
+grid_[# 15, 53] = FLOOR;
+grid_[# 13, 54] = FLOOR;
+grid_[# 15, 54] = FLOOR;
+grid_[# 13, 55] = FLOOR;
+grid_[# 14, 55] = FLOOR;
+grid_[# 15, 55] = FLOOR;
+
+// 159
+grid_[# 17, 53] = FLOOR;
+grid_[# 18, 53] = FLOOR;
+grid_[# 17, 54] = FLOOR;
+grid_[# 19, 54] = FLOOR;
+grid_[# 17, 55] = FLOOR;
+grid_[# 18, 55] = FLOOR;
+grid_[# 19, 55] = FLOOR;
+
+// 160
+grid_[# 21, 53] = FLOOR;
+grid_[# 22, 53] = FLOOR;
+grid_[# 23, 53] = FLOOR;
+grid_[# 21, 54] = FLOOR;
+grid_[# 21, 55] = FLOOR;
+grid_[# 22, 55] = FLOOR;
+grid_[# 23, 55] = FLOOR;
+
+// 161
+grid_[# 25, 53] = FLOOR;
+grid_[# 26, 53] = FLOOR;
+grid_[# 27, 53] = FLOOR;
+grid_[# 25, 54] = FLOOR;
+grid_[# 27, 54] = FLOOR;
+grid_[# 25, 55] = FLOOR;
+grid_[# 26, 55] = FLOOR;
+
+// 162
+grid_[# 29, 53] = FLOOR;
+grid_[# 30, 53] = FLOOR;
+grid_[# 31, 53] = FLOOR;
+grid_[# 29, 54] = FLOOR;
+grid_[# 31, 54] = FLOOR;
+grid_[# 29, 55] = FLOOR;
+grid_[# 31, 55] = FLOOR;
+
+// 163
+grid_[# 33, 53] = FLOOR;
+grid_[# 34, 53] = FLOOR;
+grid_[# 35, 53] = FLOOR;
+grid_[# 33, 54] = FLOOR;
+grid_[# 35, 54] = FLOOR;
+grid_[# 34, 55] = FLOOR;
+grid_[# 35, 55] = FLOOR;
+
+// 164
+grid_[# 37, 53] = FLOOR;
+grid_[# 38, 53] = FLOOR;
+grid_[# 39, 53] = FLOOR;
+grid_[# 37, 54] = FLOOR;
+grid_[# 39, 54] = FLOOR;
+grid_[# 37, 55] = FLOOR;
+grid_[# 38, 55] = FLOOR;
+grid_[# 39, 55] = FLOOR;
 
 
 
 #endregion
 
 
-
 // Place the tiles in the room
-for (var _y = 0; _y < height_; _y += 1) {
-	for (var _x = 0; _x < width_; _x += 1) {
-		if (grid_[# _x, _y] != FLOOR) {
-			// This is a wall tile, but which wall
-			var	_nw_tile	= grid_[# _x - 1, _y - 1]	== WALL,
-				_n_tile		= grid_[# _x,	  _y - 1]	== WALL,
-				_ne_tile	= grid_[# _x + 1, _y - 1]	== WALL,
-				_w_tile		= grid_[# _x - 1, _y	]	== WALL,
-				_e_tile		= grid_[# _x + 1, _y	]	== WALL,
-				_sw_tile	= grid_[# _x - 1, _y + 1]	== WALL,
-				_s_tile		= grid_[# _x,	  _y + 1]	== WALL,
-				_se_tile	= grid_[# _x + 1, _y + 1]	== WALL;
-				
-			var _tile_index = NORTH_WEST * _nw_tile + NORTH * _n_tile + NORTH_EAST * _ne_tile + 
-							  WEST * _w_tile + EAST * _e_tile + 
-							  SOUTH_WEST * _sw_tile + SOUTH * _s_tile + SOUTH_EAST * _se_tile,
-				_mapped_index = tile_index_map_get(_tile_index);
-			
-			//show_debug_message("tilemap_set("+string(_mapped_index)+","+string(_x)+","+string(_y)+")");
-			tilemap_set(tile_map_id_above, 0, _x, _y);
-			tilemap_set(tile_map_id_below, _mapped_index, _x, _y);
-			if (grid_[# _x, _y - 1] == FLOOR) {
-				var _tile_id = 7;
-				if (grid_[# _x - 1, _y] == WALL and grid_[# _x + 1, _y] == WALL) _tile_id = 5;
-				else if (grid_[# _x - 1, _y] == FLOOR and grid_[# _x + 1, _y] == WALL) _tile_id = 4;
-				else if (grid_[# _x - 1, _y] == WALL and grid_[# _x + 1, _y] == FLOOR) _tile_id = 6;
-				tilemap_set(tile_map_id_above, _tile_id, _x, _y - 1);
-			}
-		}
-		else {
-			//show_debug_message("tilemap_set(FLOOR,"+string(_x)+","+string(_y)+")");
-			
-			// This sets a transparent tile as the floor
-			tilemap_set(tile_map_id_above, 0, _x, _y);
-			tilemap_set(tile_map_id_below, 0, _x, _y);
-			
-			// This removes the tile if there was one
-			//var data = tilemap_get(tile_map_id, _x, _y);
-		    //if (!tile_get_empty(data))
-		    //{
-			//	data = tile_set_empty(data);
-			//	tilemap_set(tile_map_id, data, _x, _y);
-			//}
-		}
-	}
-}
+place_tiles_from_grid(grid_, WALL, true);
 
+// Redraw the shadow surface
 shadow_need_redraw = true;
 
 // flag the debug overlay for redrawing

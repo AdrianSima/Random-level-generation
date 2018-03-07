@@ -1,4 +1,7 @@
-if keyboard_check_pressed(vk_f5) { 
+if keyboard_check_pressed(vk_f1) {
+	debug_info_ = !debug_info_;
+}
+else if keyboard_check_pressed(vk_f5) { 
 	game_restart();
 }
 else if keyboard_check_pressed(vk_escape) { 
@@ -54,5 +57,40 @@ if (mouse_check_button_pressed(mb_left) && instance_exists(o_level)){
 	else {
 		cell_tile_index = noone;
 		cell_mapped_index = noone;
+		cell_x = _x * noone;
+		cell_y = _y * noone;
+		cell_tile_x = noone;
+		cell_tile_y = noone;
+	}
+	cell_tile_x = noone;
+	cell_tile_y = noone;
+}
+else if (mouse_check_button_pressed(mb_right) && instance_exists(o_level)){
+	var _x = mouse_x div CELL_WIDTH,
+		_y = mouse_y div CELL_HEIGHT;
+		
+	if (cell_tile_x == _x and cell_tile_y == _y) {
+		cell_x = _x * noone;
+		cell_y = _y * noone;
+		cell_tile_x = noone;
+		cell_tile_y = noone;
+	}
+	else {
+		cell_x = _x * CELL_WIDTH;
+		cell_y = _y * CELL_HEIGHT;
+		cell_tile_x = _x;
+		cell_tile_y = _y;
+	}
+	cell_tile_index = noone;
+	cell_mapped_index = noone;
+		
+}
+else if (mouse_check_button_pressed(mb_middle)) {
+	var garbage_id = instance_position(mouse_x, mouse_y, garbage);
+	if (garbage_id == noone) {
+		instance_create_layer((mouse_x div CELL_WIDTH) * CELL_WIDTH, (mouse_y div CELL_HEIGHT) * CELL_HEIGHT, "Level", garbage);
+	}
+	else {
+		instance_destroy(garbage_id);
 	}
 }

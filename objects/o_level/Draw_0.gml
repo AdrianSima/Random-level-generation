@@ -1,6 +1,7 @@
 /// @description Draw the shadows
 if (!surface_exists(shadow_surface)) {
 	shadow_surface = surface_create(room_width, room_height);
+	shadow_need_redraw = true;
 }
 // Draw the shadows to the surface
 if (shadow_need_redraw) {

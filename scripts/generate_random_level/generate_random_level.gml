@@ -1,8 +1,7 @@
 /// @desc This will generate a random level
 /// @func generate_random_level(remove_orphan_walls)
 /// @param rm_walls:boolean If true will replace any orpha walls with floors
-var _rm_walls = (argument_count > 0) ? argument[0] : false,
-	_double_walls = (argument_count > 1) ? argument[1] : false;
+var _rm_walls = (argument_count > 0) ? argument[0] : false;
 
 // Clean the room first
 ds_grid_set_region(grid_, 0, 0, width_, height_, WALL);
@@ -54,7 +53,7 @@ repeat (_steps) {
 ds_grid_set_disk(grid_, player_start_x div CELL_WIDTH, player_start_y div CELL_HEIGHT, 2, FLOOR);
 
 // Apply modifiers to the generations
-if (_rm_walls or _double_walls) {
+if (_rm_walls) {
 	for (var _y = 1; _y < height_ -1; _y += 1) {
 		for (var _x = 1; _x < width_ -1; _x += 1) {
 			if (grid_[# _x, _y] != FLOOR) {
@@ -72,25 +71,12 @@ if (_rm_walls or _double_walls) {
 								  WEST * _w_tile + EAST * _e_tile + 
 								  SOUTH_WEST * _sw_tile + SOUTH * _s_tile + SOUTH_EAST * _se_tile;
 								  
-				//if (_rm_walls and _tile_index == 0) print_r("adiacent tiles", _nw_tile, _n_tile, _ne_tile, _w_tile, _e_tile, _sw_tile, _s_tile, _se_tile);
+				//if (_rm_walls and _tile_index == 0) Print("adiacent tiles", _nw_tile, _n_tile, _ne_tile, _w_tile, _e_tile, _sw_tile, _s_tile, _se_tile);
 				
 				// Replace orphan wall tiles with floor tiles
 				if (_rm_walls and !_n_tile and !_s_tile and !_w_tile and !_e_tile) {
 					show_debug_message("removing orphan wall at tile ["+string(_x)+","+string(_y)+"]");
 					grid_[# _x, _y] = FLOOR;
-				}
-				// If we find a wall that has no neighbour above or below, we add one or remove the wall if we can't add wall
-				if (_double_walls and !_n_tile and !_s_tile) {
-					// We check if we close off access to other rooms
-					if (grid_[# _x, _y - 2] == FLOOR) {
-						grid_[# _x, _y - 1] = WALL; // Place wall above
-					}
-					else if (grid_[# _x, _y + 2] == FLOOR) {
-						grid_[# _x, _y + 1] = WALL; // Place wall below
-					}
-					else {
-						grid_[# _x, _y] = FLOOR; // Remove the wall
-					}
 				}
 			}
 		}
@@ -120,10 +106,10 @@ for (var _y = 0; _y < height_; _y += 1) {
 			tilemap_set(tile_map_id_above, 0, _x, _y);
 			tilemap_set(tile_map_id_below, _mapped_index, _x, _y);
 			if (grid_[# _x, _y - 1] == FLOOR) {
-				var _tile_id = 4;
-				if (grid_[# _x - 1, _y] == WALL and grid_[# _x + 1, _y] == WALL) _tile_id = 2;
-				else if (grid_[# _x - 1, _y] == FLOOR and grid_[# _x + 1, _y] == WALL) _tile_id = 1;
-				else if (grid_[# _x - 1, _y] == WALL and grid_[# _x + 1, _y] == FLOOR) _tile_id = 3;
+				var _tile_id = 7;
+				if (grid_[# _x - 1, _y] == WALL and grid_[# _x + 1, _y] == WALL) _tile_id = 5;
+				else if (grid_[# _x - 1, _y] == FLOOR and grid_[# _x + 1, _y] == WALL) _tile_id = 4;
+				else if (grid_[# _x - 1, _y] == WALL and grid_[# _x + 1, _y] == FLOOR) _tile_id = 6;
 				tilemap_set(tile_map_id_above, _tile_id, _x, _y - 1);
 			}
 		}
@@ -135,12 +121,12 @@ for (var _y = 0; _y < height_; _y += 1) {
 			tilemap_set(tile_map_id_below, 0, _x, _y);
 			
 			// This removes the tile if there was one
-			/*var data = tilemap_get(tile_map_id, _x, _y);
-		    if (!tile_get_empty(data))
-		    {
-				data = tile_set_empty(data);
-				tilemap_set(tile_map_id, data, _x, _y);
-			}*/
+			//var data = tilemap_get(tile_map_id, _x, _y);
+		    //if (!tile_get_empty(data))
+		    //{
+			//	data = tile_set_empty(data);
+			//	tilemap_set(tile_map_id, data, _x, _y);
+			//}
 		}
 	}
 }

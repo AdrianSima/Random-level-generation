@@ -1,4 +1,4 @@
-///@func in_array(array, needle)
+///@func inArray(array, needle)
 ///@desc Retuns true if the needle is found in the array
 ///@arg {array} array The haystack in which we search the needle
 ///@arg {any} needle The needle that we search

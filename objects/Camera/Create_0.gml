@@ -1,7 +1,7 @@
 /// @description Initializing the camera
 
 width_default = 320;
-height_default = 180;
+height_default = 240;
 width = width_default;
 height = height_default;
 
@@ -9,7 +9,7 @@ half_width = width / 2;
 half_height = height / 2;
 
 zoom = 1;
-zoom_target = 1;
+zoom_target = 3;
 zoom_min = 1;
 zoom_max = 5;
 

@@ -1,5 +1,5 @@
 /// @description Draw debug text
-if (!debug_) exit;
+if (!debug_ or !debug_info_) exit;
 
 // Draw debug info
 var _text_row = 1;
@@ -8,7 +8,6 @@ draw_text(5, (_text_row++) * str_height, "auto_generate:" + (auto_generate ? "tr
 _text_row++;
 if (instance_exists(o_level)) {
 	draw_text(5, (_text_row++) * str_height, "orphan_walls:" + (o_level.orphan_walls ? "true":"false"));
-	draw_text(5, (_text_row++) * str_height, "double_walls:" + (o_level.double_walls ? "true":"false"));
 }
 _text_row++;
 if (instance_exists(Camera)) {
