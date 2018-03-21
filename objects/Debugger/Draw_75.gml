@@ -25,3 +25,5 @@ if (instance_exists(o_player)) {
 	draw_text(5, (_text_row++) * str_height, "position: [" + string(o_player.x) + "," + string(o_player.y) + "]");
 	draw_text(5, (_text_row++) * str_height, "tile: [" + string(o_player.x div CELL_WIDTH) + "," + string(o_player.y div CELL_HEIGHT) + "]");
 }
+_text_row++;
+draw_text(5, (_text_row++) * str_height, "above_layer_alpha:" + string(o_level.above_layer_alpha));

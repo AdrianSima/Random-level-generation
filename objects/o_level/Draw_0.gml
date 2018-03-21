@@ -27,3 +27,8 @@ if (shadow_need_redraw) {
 }
 // Draw the shadows to the game
 draw_surface(shadow_surface, 0, 0);
+
+shader_set(shd_alpha);
+u_alpha = shader_get_uniform(shd_alpha, "u_alpha");
+shader_set_uniform_f(u_alpha, o_level.above_layer_alpha);
+shader_reset();

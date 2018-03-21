@@ -19,8 +19,9 @@ if (zoom != zoom_target) {
 x = lerp(x, target.x, .1);
 y = lerp(y, target.y, .1);
 
-x = clamp(x, half_width + CELL_WIDTH, room_width - half_width - CELL_WIDTH);
-y = clamp(y, half_height + CELL_HEIGHT, room_height - half_height - CELL_HEIGHT);
+//Limiting the camera to stay within the level bounds
+//x = clamp(x, half_width + CELL_WIDTH, room_width - half_width - CELL_WIDTH);
+//y = clamp(y, half_height + CELL_HEIGHT, room_height - half_height - CELL_HEIGHT);
 
 camera_set_view_pos(main_camera, x - half_width, y - half_height);
 

@@ -32,9 +32,6 @@ xSpeed -= xSpeedFraction;
 ySpeedFraction = ySpeed - (floor(abs(ySpeed)) * sign(ySpeed));
 ySpeed -= ySpeedFraction;
 
-if (xSpeed != 0 and ySpeed != 0)
-	show_debug_message("speed = ["+string(xSpeed)+","+string(ySpeed)+"]");
-
 var bbox_side;
 // Horizontal Collision
 if (!Debugger.debug_) {

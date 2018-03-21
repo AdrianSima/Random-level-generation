@@ -3,8 +3,8 @@
 ///@param {grid_id} grid The grid from which to check for walls
 ///@param {number} [tile_type] (optional, default is WALL) The type of the tile to check for in the grid
 ///@param {boolean} [is_wall] (optional, default false) If this tile_type is a wall so it needs the "WallLayerAbove" too.
-///@paras {layer_id} [layer_id_below] (optional, default 'tile_map_id_below') The layer id of the below tile layer
-///@paras {layer_id} [layer_id_above] (optional, default 'tile_map_id_above') The layer id of the above tile layer
+///@param {layer_id} [layer_id_below] (optional, default 'tile_map_id_below') The layer id of the below tile layer
+///@param {layer_id} [layer_id_above] (optional, default 'tile_map_id_above') The layer id of the above tile layer
 
 var _grid = argument[0],
 	_height = ds_grid_height(_grid),
@@ -14,8 +14,8 @@ var _grid = argument[0],
 	_layer_id_below = (argument_count >= 4) ? argument[3] : tile_map_id_below,
 	_layer_id_above = (argument_count >= 5) ? argument[4] : tile_map_id_above;
 
-for (var _y = 0; _y < _height; _y += 1) {
-	for (var _x = 0; _x < _width; _x += 1) {
+for (var _y = 1; _y < _height-1; _y += 1) {
+	for (var _x = 1; _x < _width-1; _x += 1) {
 		if (_grid[# _x, _y] == _tile_type) {
 			// This is a wall tile, but which wall
 			var	_nw_tile	= _grid[# _x - 1, _y - 1]	== _tile_type,
